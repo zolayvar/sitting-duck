@@ -15,7 +15,7 @@ getAllTracks = [
   Track {start = 9, events = Map.fromList [(0,Z),(4,X),(4,Distance1),(9,Distance2)]},
   Track {start = 13, events = Map.fromList [(0,Z),(6,Y),(10,X),(4,Distance1),(9,Distance2)]},
   Track {start = 12, events = Map.fromList [(0,Z),(4,Y),(8,X),(4,Distance1),(9,Distance2)]}]
-getTracks xs = filter (\(track, i) -> elem i xs) (zip getAllTracks [1..])
+getTracks xs = map fst $ filter (\(track, i) -> elem i xs) (zip getAllTracks [1..])
 
 -- Type definitions for positioning
 data ZoneColor = Red | White | Blue deriving (Eq, Show, Enum, Read)
@@ -60,11 +60,15 @@ data Zone = Zone {
   damageTiles :: [Damage]}
 data Ship = Ship {
   zones :: [Zone]}
+getShip = 
+    Ship {
+      zones = []}
 
 -- Type definitions for players
 data Player = Player {
   actions :: [Action],
   playerZone :: Zone}
+getPlayers = []
 
 -- Type definitions for threats
 data ThreatColor = WhiteThreat | YellowThreat deriving (Eq, Show, Read, Enum)
@@ -77,6 +81,8 @@ data Threat = Threat {
   zone :: ZoneColor,
   floor :: Floor,
   trackPosition :: Int}
+getInternalThreats = []
+getExternalThreats = []
 
 -- Type definition for the game
 data Game = Game {
@@ -85,7 +91,13 @@ data Game = Game {
   internalThreats :: [Threat],
   externalThreats :: [Threat],
   internalTrack :: Track}
-
+getInitialGameState = 
+    Game {
+      ship = getShip,
+      players = getPlayers,
+      internalThreats = getInternalThreats,
+      externalThreats = getExternalThreats,
+      internalTrack = ((getTracks [1]) !! 0)}
 
 main = do
-  putStrLn $ concat $ map (\card -> (show card) ++ "\n") getCards
+  putStrLn "stuff" 
